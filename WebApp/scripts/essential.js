@@ -5,7 +5,8 @@ $(document).ready(function (){
 
 // Data Validation
     if($('#pageLink').val()=="" | $('#adSource').val()=="" | $('#adCampaignName').val()=="" | $('#adMedium').val()=="" | $('#adObjective').val()=="" | $('#aTag').val()==""){
-  $('#blankFields').modal('show')
+      $('#errorMsg').html("Please fill all the required fields")
+      $('#blankFields').modal('show')
     }
     else {
       if($('#aTag').val().indexOf(' ')>=0){

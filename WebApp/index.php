@@ -151,7 +151,7 @@
 
       <div class="modal-body">
           <div class="alert alert-danger">
-              <h4 id="errorMsg"><strong> Please fill all the required fields</strong></h4>
+              <h4 id="errorMsg"><strong> </strong></h4>
           </div>
       </div>
 

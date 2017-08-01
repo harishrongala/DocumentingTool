@@ -1,3 +1,14 @@
+function gotoTagMgr(){
+  window.open("https://tagmanager.google.com/?authuser=0#/container/accounts/1631203127/containers/7263290/workspaces/1/variables");
+}
+
+function copyCode(){
+  var copiedText = document.querySelector('.copyArea');
+  copiedText.select();
+  document.execCommand('copy');
+}
+
+
 function makeApiCall() {
   var params = {
     // The ID of the spreadsheet to update.
@@ -60,7 +71,7 @@ if(duplicate)
 
   else{
     var valueRangeBody = {
-  "range": "Sheet1!A1:F1",
+  "range": "Sheet1!A1:G1",
   "majorDimension": "ROWS",
   "values": [
     [
@@ -69,7 +80,8 @@ if(duplicate)
       $('#adMedium').val(),
       $('#adCampaignName').val(),
       $('#adObjective').val(),
-      $('#aTag').val()
+      $('#aTag').val(),
+      $('#adNotes').val()
     ]
   ]
     };
@@ -94,7 +106,7 @@ set = 'timeout = 2000;SName = "Lookup Source";MName = "Lookup Medium";CName = "L
 function writeToSheets(valueRangeBody){
   var params = {
     spreadsheetId: '18lkBzxxLKYAqyiQb0FGdSXjPOvHiLrNQqhKwDYQP6mA',
-    range: 'Sheet1!A1:F1',
+    range: 'Sheet1!A1:G1',
     valueInputOption: 'RAW',
     insertDataOption: 'INSERT_ROWS',
   };

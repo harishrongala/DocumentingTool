@@ -20,8 +20,12 @@
 
   <script>
   $(document).ready(function (){
+// Testing code modal
+    $('#myModal').modal('show');
 $('#owner_form_data').submit(function(event){
   event.preventDefault();
+
+
 
   <!-- Data Validation -->
   if($('#pageLink').val()=="" | $('#adSource').val()=="" | $('#adCampaignName').val()=="" | $('#adMedium').val()=="" | $('#adObjective').val()=="" | $('#aTag').val()=="")
@@ -74,44 +78,64 @@ $('#owner_form_data').submit(function(event){
   <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
   <form action="" method="post" id="owner_form_data">
 
-    <div class="form-group has-feedback">
-      <label for="link" >Page Link </label>
-      <input type="name" class="form-control" id="pageLink" name="link" value="http://byteacademy.co">
-      <i class="glyphicon glyphicon-info-sign form-control-feedback"></i>
-    </div>
-
+    <label for="link" >Page Link </label>
     <div class="form-group">
-      <label for="source" >Ad Source </label>
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+      <input type="name" class="form-control" id="pageLink" name="link" value="http://byteacademy.co">
+    </div>
+  </div>
+
+    <label for="source" >Ad Source </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
       <input type="name" class="form-control" id="adSource" name="source" placeholder="Facebook">
     </div>
+  </div>
 
-
+    <label for="campaign" >Campaign Name </label>
     <div class="form-group">
-      <label for="campaign" >Campaign Name </label>
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
       <input type="name" class="form-control" id="adCampaignName" name="campaign" placeholder="Summer">
     </div>
+    </div>
 
+    <label for="medium" >Ad Name </label>
     <div class="form-group">
-      <label for="medium" >Ad Name </label>
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
       <input type="name" class="form-control" id="adMedium" name="medium" placeholder="FinTech-Ad-2017">
     </div>
+  </div>
 
+    <label for="objective">Objective </label>
     <div class="form-group">
-      <label for="objective">Objective </label>
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
       <input type="name" class="form-control" id="adObjective" name="objective" placeholder="Brand Awareness">
     </div>
+  </div>
 
+    <label for="objective">Custom tag </label>
     <div class="form-group">
-      <label for="objective">Custom tag </label>
-      <input type="name" class="form-control" id="aTag" name="objective" placeholder="Brand Awareness">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+    <input type="name" class="form-control" id="aTag" name="objective" placeholder="FBAd-07">
+    </div>
     </div>
 
 
-
+    <label for="Notes" >Additional Notes </label>
     <div class="form-group">
-      <label for="Notes" >Additional Notes </label>
-      <input type="text" class="form-control" id="adNotes" name="Notes" placeholder="Targeted College students ages 18-25">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+    <input type="text" class="form-control" id="adNotes" name="Notes" placeholder="Targeted College students ages 18-25">
     </div>
+  </div>
+
+
 
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
@@ -127,17 +151,19 @@ $('#owner_form_data').submit(function(event){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Hurray ! One last step</h4>
+        <h4><strong class="modal-title">Hurray ! One last step</strong></h4>
       </div>
 
 
       <div class="modal-body">
 
-          <div class="alert alert-info"><p id="modalCode"></p>
+          <div class=""><textarea class="copyArea form-control alert alert-warning" rows="10" id="modalCode"></textarea>
           </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="copyCode()">Copy Code</button>
+        <button type="button" class="btn btn-info" onclick="gotoTagMgr()">Go to Tag Manager</button>
+
       </div>
     </div>
 

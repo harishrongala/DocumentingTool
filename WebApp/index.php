@@ -1,130 +1,172 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Google Sheets API Quickstart</title>
-    <meta charset='utf-8' />
-  </head>
-  <body>
-    <p>Google Sheets API Quickstart</p>
+<html lang="en">
+<head>
+  <title>Ad-Documenting tool</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/login_custom_style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="scripts/essential.js"></script>
+  <script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
 
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: none;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+<!------------------- Navigation bar ---------------->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand"><i class="glyphicon glyphicon-paperclip"></i><strong> CHRONICLE</strong></a>
+  </div>
+  <div class="collapse navbar-collapse" id="mynavbar">
+  <ul class="nav navbar-nav navbar-right">
+  </ul>
+  <button id="signinText" onclick="handleSignInClick()" class="btn btn-info navbar-btn pull-right">Login Status</button>
+</div>
+</div>
+</nav>
+<!------------------- Navigation bar ends ------------------------->
 
-    <pre id="content"></pre>
+</head>
+<body>
 
-    <script type="text/javascript">
-      // Client ID and API key from the Developer Console
-      var CLIENT_ID = '884293899280-t1peh19p1esflplq5ssjtsg7vo2dq85h.apps.googleusercontent.com';
+<!---- Form Starts ---->
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+<div class="container-fluid" id="padding_needed">
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
+  <form action="" method="post" id="adFormData">
 
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
-      var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+    <label for="link" >Page Link </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+      <input type="name" class="form-control" id="pageLink" name="link" value="http://byteacademy.co">
+    </div>
+  </div>
 
-      var authorizeButton = document.getElementById('authorize-button');
-      var signoutButton = document.getElementById('signout-button');
+    <label for="source" >Ad Source </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+      <input type="name" class="form-control" id="adSource" name="source" placeholder="Facebook">
+    </div>
+  </div>
 
-      /**
-       *  On load, called to load the auth2 library and API client library.
-       */
-      function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
-      }
+    <label for="campaign" >Campaign Name </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
+      <input type="name" class="form-control" id="adCampaignName" name="campaign" placeholder="Summer">
+    </div>
+    </div>
 
-      /**
-       *  Initializes the API client library and sets up sign-in state
-       *  listeners.
-       */
-      function initClient() {
-        gapi.client.init({
-          discoveryDocs: DISCOVERY_DOCS,
-          clientId: CLIENT_ID,
-          scope: SCOPES
-        }).then(function () {
-          // Listen for sign-in state changes.
-          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+    <label for="medium" >Ad Name </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+      <input type="name" class="form-control" id="adMedium" name="medium" placeholder="FinTech-Ad-2017">
+    </div>
+  </div>
 
-          // Handle the initial sign-in state.
-          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-          authorizeButton.onclick = handleAuthClick;
-          signoutButton.onclick = handleSignoutClick;
-        });
-      }
+    <label for="objective">Objective </label>
+    <div class="form-group">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
+      <input type="name" class="form-control" id="adObjective" name="objective" placeholder="Brand Awareness">
+    </div>
+  </div>
 
-      /**
-       *  Called when the signed in status changes, to update the UI
-       *  appropriately. After a sign-in, the API is called.
-       */
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          authorizeButton.style.display = 'none';
-          signoutButton.style.display = 'block';
-          listMajors();
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
-        }
-      }
+    <label for="objective">Custom tag </label>
+    <div class="form-group">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+    <input type="name" class="form-control" id="aTag" name="objective" placeholder="FBAd-07">
+    </div>
+    </div>
 
-      /**
-       *  Sign in the user upon button click.
-       */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
-      }
 
-      /**
-       *  Sign out the user upon button click.
-       */
-      function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-      }
+    <label for="Notes" >Additional Notes </label>
+    <div class="form-group">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-file"></i></span>
+    <input type="text" class="form-control" id="adNotes" name="Notes" placeholder="Targeted College students ages 18-25">
+    </div>
+  </div>
 
-      /**
-       * Append a pre element to the body containing the given message
-       * as its text node. Used to display the results of the API call.
-       *
-       * @param {string} message Text to be placed in pre element.
-       */
-      function appendPre(message) {
-        var pre = document.getElementById('content');
-        var textContent = document.createTextNode(message + '\n');
-        pre.appendChild(textContent);
-      }
+    <button type="submit" class="btn btn-primary" id="formSubmitBut">Submit</button>
+  </form>
 
-      /**
-       * Print the names and majors of students in a sample spreadsheet:
-       * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-       */
-      function listMajors() {
-        gapi.client.sheets.spreadsheets.values.get({
-          spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-          range: 'Class Data!A2:E',
-        }).then(function(response) {
-          var range = response.result;
-          if (range.values.length > 0) {
-            appendPre('Name, Major:');
-            for (i = 0; i < range.values.length; i++) {
-              var row = range.values[i];
-              // Print columns A and E, which correspond to indices 0 and 4.
-              appendPre(row[0] + ', ' + row[4]);
-            }
-          } else {
-            appendPre('No data found.');
-          }
-        }, function(response) {
-          appendPre('Error: ' + response.result.error.message);
-        });
-      }
+<!--- Form Ends -------------->
 
-    </script>
+<!------ Code Modal ----------->
 
-    <script async defer src="https://apis.google.com/js/api.js"
-      onload="this.onload=function(){};handleClientLoad()"
-      onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-  </body>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4><strong class="modal-title">Hurray ! One last step</strong></h4>
+      </div>
+
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row"><textarea class="copyArea form-control alert alert-success" rows="10" id="modalCode"></textarea>
+            <button type="button" class="btn btn-primary" onclick="copyCode()"><span class="badge">1</span> Copy Code</button>
+            <button type="button" class="btn btn-danger" onclick="gotoTagMgr()"><span class="badge">2</span> Go to Tag Manager</button>
+          </div>
+        </div>
+
+<div class="modal-footer">
+          <div class="row"><textarea class="copyURLArea form-control alert alert-info" rows="1" id="modalURL" ></textarea>
+          <button type="button" class="btn btn-success" onclick="copyURL()"><span class="badge">3</span> Copy URL</button>
+          </div>
+      </div>
+</div>
+    </div>
+  </div>
+</div>
+<!------ Code Modal Ends----------->
+
+<!--- Data Validation & Error message modal -->
+<div id="blankFields" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4><strong class="modal-title">Message</strong></h4>
+    </div>
+
+
+      <div class="modal-body">
+          <div class="alert alert-danger">
+              <h4 id="errorMsg"><strong> Please fill all the required fields</strong></h4>
+          </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--- Data Validation modal and Error message modal ends-->
+
+
+
+</div>
+</div>
+</body>
 </html>

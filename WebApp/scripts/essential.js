@@ -1,3 +1,27 @@
+$(document).ready(function (){
+  //$('#myModal').modal('show')
+  $('#adFormData').submit(function(event){
+    event.preventDefault();
+
+// Data Validation
+    if($('#pageLink').val()=="" | $('#adSource').val()=="" | $('#adCampaignName').val()=="" | $('#adMedium').val()=="" | $('#adObjective').val()=="" | $('#aTag').val()==""){
+  $('#blankFields').modal('show')
+    }
+    else {
+      if($('#aTag').val().indexOf(' ')>=0){
+        $('#errorMsg').html("Whitespaces are not accepted in the tag name")
+        $('#blankFields').modal('show')
+      }
+
+      else{
+        checkForDuplicates($('#aTag').val())
+      }
+    }
+
+  });
+});
+
+// Tagmanager URL variable
 function gotoTagMgr(){
   window.open("https://tagmanager.google.com/?authuser=0#/container/accounts/1631203127/containers/7263290/workspaces/1/variables");
 }
@@ -8,24 +32,20 @@ function copyCode(){
   document.execCommand('copy');
 }
 
+function copyURL(){
+  var copiedText = document.querySelector('.copyURLArea');
+  copiedText.select();
+  document.execCommand('copy');
+}
+
 
 function makeApiCall() {
   var params = {
-    // The ID of the spreadsheet to update.
     spreadsheetId: '18lkBzxxLKYAqyiQb0FGdSXjPOvHiLrNQqhKwDYQP6mA',  // TODO: Update placeholder value.
-
-    // The A1 notation of a range to search for a logical table of data.
-    // Values will be appended after the last row of the table.
     range: 'Sheet1!A1:F1',  // TODO: Update placeholder value.
-
-    // How the input data should be interpreted.
     valueInputOption: 'RAW',  // TODO: Update placeholder value.
-
-    // How the input data should be inserted.
     insertDataOption: 'INSERT_ROWS',  // TODO: Update placeholder value.
   };
-
-//checkForDuplicates();
 }
 
 
@@ -39,34 +59,30 @@ function checkForDuplicates(tagValue){
 
   var request = gapi.client.sheets.spreadsheets.values.get(params);
   request.then(function(response) {
-    // TODO: Change code below to process the `response` object:
-    //console.log(response.result.values[0]);
-    //console.log(response.result.values.length)
+  // Checking for duplicate tags
     dat = response.result.values[0];
     temp = new Set(dat)
     dat.push(tagValue)
     ref = new Set(dat)
-    //console.log(temp)
-  //  console.log(ref)
     globalIndex = temp.size
     duplicate = (ref.size==temp.size)
-    setTimeout(function(){validateFrom()},300)
-  //  console.log(duplicate)
-
+    setTimeout(function(){validateFrom()},300) // TODO: Asynchronous API result time
   }, function(reason) {
     console.error('error: ' + reason.result.error.message);
   });
 
 }
 
+// Global Variables
 duplicate = "";
 globalIndex = 0
+shareableLink = ""
 
 function validateFrom(){
 if(duplicate)
   {
-    $('#unavailableTagMsg').html("The tag name "+ $('#aTag').val()+" is not available! You already used it")
-    $('#unavailableTag').modal('show')
+    $('#errorMsg').html("The tag name "+'"'+ $('#aTag').val()+'"'+" is already in use. Please try another tag name")
+    $('#blankFields').modal('show')
   }
 
   else{
@@ -81,14 +97,16 @@ if(duplicate)
       $('#adCampaignName').val(),
       $('#adObjective').val(),
       $('#aTag').val(),
-      $('#adNotes').val()
+      $('#adNotes').val(),
+      $('#pageLink').val()+'#'+$('#aTag').val()
     ]
   ]
     };
-
+    shareableLink = $('#pageLink').val()+'#'+$('#aTag').val();
     writeToSheets(valueRangeBody);
 
 // Finalized - Do not change
+// DO NOT CHANGE THIS BLOCK
 
 funs = 'function step1(label){var anc = $("a");for(i=0;i&lt;anc.length;i++){if(anc[i].innerText==label){break;}}anc[i].click();};function step2(){var but = $("button");for(i=0;i&lt;but.length;i++){if(but[i].outerHTML.match("addRow")=="addRow"){break;}}but[i].click()};function step3(index, tag, value){$table'+"=$('.gtm-vendor-template-simple-table-md').find('input');$table.eq(index[0]).val(tag).change();$table.eq(index[1]).val(value).change();};"+'function step4(){var but = $("button");for(i=0;i&lt;but.length;i++){if(but[i].innerText=="SAVE"){break;}}but[i].click()};';
 
@@ -96,7 +114,10 @@ cust = "tag='"+$('#aTag').val()+"';indices=["+((globalIndex*2)-2)+','+((globalIn
 
 set = 'timeout = 2000;SName = "Lookup Source";MName = "Lookup Medium";CName = "Lookup Campaign";OName = "Lookup Obj";setTimeout(function(){step1(SName);setTimeout(function(){step2();setTimeout(function(){step3(indices, tag, source);setTimeout(function(){step4();setTimeout(function(){step1(MName);setTimeout(function(){step2();setTimeout(function(){step3(indices, tag,medium);setTimeout(function(){step4();setTimeout(function(){step1(CName);setTimeout(function(){step2();setTimeout(function(){step3(indices,tag,campaign);setTimeout(function(){step4();setTimeout(function(){step1(OName);setTimeout(function(){step2();setTimeout(function(){step3(indices, tag,objective);setTimeout(function(){step4();},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout)},timeout);},10);';
 
+// TILL THIS LINE - DO NOT CHANGE
+
     $('#modalCode').html(funs+cust+set);
+    $('#modalURL').html(shareableLink);
     $('#myModal').modal('show')
   }
 
@@ -124,9 +145,7 @@ function writeToSheets(valueRangeBody){
 
 function initClient() {
   var API_KEY = 'AIzaSyCEKomx31l_BDus0XUr460WSlh8xYAw1CA';  // TODO: Update placeholder with desired API key.
-
   var CLIENT_ID = '958606527783-n8gtfit8a47bn1bmvt4f4ks4j05e9jaq.apps.googleusercontent.com';  // TODO: Update placeholder with desired client ID.
-
   // TODO: Authorize using one of the following scopes:
   //   'https://www.googleapis.com/auth/drive'
   //   'https://www.googleapis.com/auth/drive.file'
@@ -150,12 +169,32 @@ function handleClientLoad() {
 
 function updateSignInStatus(isSignedIn) {
   if (isSignedIn) {
+    var stat = $('#signinText');
+    stat.removeClass('btn-info')
+    stat.addClass('btn-success')
+    stat.attr("onclick","handleSignOutClick()")
+    stat.html("Sign Out")
+    $('#formSubmitBut').prop('disabled', false)
     makeApiCall();
+  }
+  else{
+    var stat = $('#signinText');
+    stat.removeClass('btn-info')
+    stat.addClass('btn-danger')
+    stat.attr("onclick","handleSignInClick()")
+    stat.html("Sign In")
+    $('#formSubmitBut').prop('disabled', true)
   }
 }
 
 function handleSignInClick(event) {
   gapi.auth2.getAuthInstance().signIn();
+  var stat = $('#signinText');
+  stat.removeClass('btn-info btn-danger')
+  stat.addClass('btn-success')
+  stat.attr("onclick","handleSignOutClick()")
+  stat.html("Sign Out")
+  $('#formSubmitBut').prop('disabled', false)
 }
 
 function handleSignOutClick(event) {

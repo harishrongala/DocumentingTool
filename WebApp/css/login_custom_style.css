@@ -15,3 +15,8 @@ padding-top: 80px;
 .modal-body {
     word-wrap: break-word;
 }
+
+#modalURL{
+  font-size: 24px;
+  font-weight: bold;
+}

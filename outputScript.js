@@ -1,6 +1,10 @@
+tag = "quoraAd"
 timeout = 800;
 indices = [0,1]
-values = ["dff","sdd"]
+source = "Facebook"
+campaign = "Summer"
+medium = "PythonAd"
+objective = "BrandAwareness"
 SName = "Lookup Source"
 MName = "Lookup Medium"
 CName = "Lookup Campaign"
@@ -10,7 +14,7 @@ setTimeout(function(){
 	setTimeout(function(){
 	step2();
 	setTimeout(function(){
-	step3(indices, values);
+	step3(indices, tag, source);
 	setTimeout(function(){
 	step4();
 	setTimeout(function(){
@@ -18,7 +22,7 @@ setTimeout(function(){
 	setTimeout(function(){
 	step2();
 	setTimeout(function(){
-	step3(indices, values);
+	step3(indices, tag, medium);
 	setTimeout(function(){
 	step4();
 	setTimeout(function(){
@@ -26,7 +30,7 @@ setTimeout(function(){
 	setTimeout(function(){
 	step2();
 	setTimeout(function(){
-	step3(indices, values);
+	step3(indices, tag, campaign);
 	setTimeout(function(){
 	step4();
 	setTimeout(function(){
@@ -34,7 +38,7 @@ setTimeout(function(){
 	setTimeout(function(){
 	step2();
 	setTimeout(function(){
-	step3(indices, values);
+	step3(indices, tag, objective);
 	setTimeout(function(){
 	step4();
 	},timeout)

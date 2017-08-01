@@ -18,10 +18,10 @@ function step2(){
 	but[i].click()
 }
 
-function step3(index, values){
+function step3(index, tag, value){
 	$table = $('.gtm-vendor-template-simple-table-md').find('input');
-	$table.eq(index[0]).val(values[0]).change();
-	$table.eq(index[1]).val(values[1]).change();
+	$table.eq(index[0]).val(tag).change();
+	$table.eq(index[1]).val(value).change();
 }
 
 function step4(){

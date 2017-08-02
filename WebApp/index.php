@@ -114,7 +114,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4><strong class="modal-title">Hurray ! One last step</strong></h4>
+        <h3><strong class="modal-title">Hurray ! One last step</strong></h3>
+         <h3><span class="label label-default">Copy this code</span>
+         <span class="label label-default">Go to Tag manager</span>
+         <span class="label label-default">Press Ctrl+Shift+I</span>
+         <span class="label label-default">Paste the code in console</span> </h3>
       </div>
 
 

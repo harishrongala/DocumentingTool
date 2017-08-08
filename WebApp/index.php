@@ -22,7 +22,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand"><i class="glyphicon glyphicon-paperclip"></i><strong> CHRONICLE</strong></a>
+    <a class="navbar-brand"><i class="glyphicon glyphicon-paperclip" style="color: yellow"></i><strong style="color: orange"> CHRONICLE</strong></a>
   </div>
   <div class="collapse navbar-collapse" id="mynavbar">
   <ul class="nav navbar-nav navbar-right">
@@ -79,7 +79,12 @@
     <div class="form-group">
       <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
-      <input type="name" class="form-control" id="adObjective" name="objective" placeholder="Brand Awareness">
+      <select type="name" class="form-control" id="adObjective" name="objective">
+        <option value="Traffic">Traffic</option>
+        <option value="Conversions">Conversions</option>
+        <option value="Brand Awareness">Brand Awareness</option>
+        <option value="Other">Other</option>
+      </select>
     </div>
   </div>
 
@@ -87,7 +92,7 @@
     <div class="form-group">
     <div class="input-group">
     <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-    <input type="name" class="form-control" id="aTag" name="objective" placeholder="FBAd-07">
+    <input type="name" class="form-control" id="aTag" name="objective" placeholder="FBAd-07" onfocus="autoSuggestions()">
     </div>
     </div>
 

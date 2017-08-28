@@ -20,3 +20,15 @@ padding-top: 80px;
   font-size: 24px;
   font-weight: bold;
 }
+
+.navbar{
+  background-color: black;
+}
+
+body{
+  background-color: #d9d9d9;
+}
+
+#nonByte{
+  margin-right: 15px;
+}

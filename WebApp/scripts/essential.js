@@ -6,42 +6,149 @@ apiKey = config.apiKey;
 clientID = config.clientID;
 
 // Global Variables
+suggestionDict = {'facebook':'Fb','linkedin':'Ln','Quora':'Qu'};
 duplicate = "";
 globalIndex = 0
 shareableLink = ""
+suggestions = false
+sug1 = ""
+sug2 = ""
+sug3 = ""
 
+function suggestionClick(value){
+  switch (value) {
+    case 1:
+      $('#aTag').val(sug1);
+      break;
+    case 2:
+      $('#aTag').val(sug2)
+      break;
+    case 3:
+      $('#aTag').val(sug3)
+      break;
+
+  }
+}
 
 $(document).ready(function (){
-  //$('#myModal').modal('show')
+  //$('#modalURL').html("http://byteacademy.co/#Fb");
   $('#formSubmitBut').prop('disabled', false)
   $('#adFormData').submit(function(event){
     event.preventDefault();
-    // Data Validation
-    if($('#pageLink').val()=="" | $('#adSource').val()=="" | $('#adCampaignName').val()=="" | $('#adMedium').val()=="" | $('#adObjective').val()=="" | $('#aTag').val()==""){
-      $('#errorMsg').html("Please fill all the required fields")
-      $('#blankFields').modal('show')
-    }
-    else {
-      if($('#aTag').val().indexOf(' ')>=0){
-        $('#errorMsg').html("Whitespaces are not accepted in the tag name")
-        $('#blankFields').modal('show')
-      }
-
-      else{
-        checkForDuplicates($('#aTag').val())
-      }
-    }
-
   });
 });
 
-
-// Tag Name Suggestions
-
-function autoSuggestions(){
-  console.log("Invoked");
+function showNonByteModal(){
+  $('#nonByteModal').modal('show');
 }
 
+function shortenBitly(){
+  console.log(document.getElementById('nonBytePageLink').value);
+    $.getJSON(config.bitlyURL,{"access_token": config.bitlyAccessToken, "longUrl": document.getElementById('nonBytePageLink').value},function(response){
+    if(response.status_code==200){
+      $('#bitURL').html(response.data['url']);
+    }
+    else{
+      alert("Sorry, something wrong with the URL");
+    }
+  });
+}
+
+function bitlyCopy(){
+  var copiedText = document.querySelector('.bitCopyURLArea');
+  copiedText.select();
+  document.execCommand('copy');
+}
+
+
+function shortenURL(){
+  $.getJSON(config.bitlyURL,{"access_token": config.bitlyAccessToken, "longUrl": document.getElementById('modalURL').innerHTML},function(response){
+    if(response.status_code==200){
+      $('#modalURL').html(response.data['url']);
+    }
+    else{
+      alert("Sorry, something wrong with the URL");
+    }
+  });
+}
+
+function submitData(){
+  // Data Validation
+  if($('#pageLink').val()=="" | $('#adSource').val()=="" | $('#adCampaignName').val()=="" | $('#adMedium').val()=="" | $('#adObjective').val()=="" | $('#aTag').val()==""){
+    $('#errorMsg').html("Please fill all the required fields")
+    $('#blankFields').modal('show')
+  }
+  else {
+    if($('#aTag').val().indexOf(' ')>=0){
+      $('#errorMsg').html("Whitespaces are not accepted in the tag name")
+      $('#blankFields').modal('show')
+    }
+
+    else{
+      checkForDuplicates($('#aTag').val())
+    }
+  }
+}
+
+
+// Get the Suggestions for Tag
+function getSuggestions(){
+  suggest1 = ""
+  suggest2 = ""
+  suggest3 = ""
+  var key = $('#adSource').val().toLowerCase();
+  if(suggestionDict[key]!=null){
+    suggest1 = suggestionDict[key]
+    suggest2 = suggest1 + $('#adCampaignName').val().substring(0,3).toLowerCase()
+    suggest3 = suggest1 + $('#adMedium').val().substring(0,3).toLowerCase()
+  }
+  else{
+    var random = Math.round(Math.random()*100)
+    suggest1 = $('#adSource').val()[0].toUpperCase() + $('#adSource').val()[1] ;
+    suggest2 = $('#adSource').val()[0].toUpperCase() + $('#adCampaignName').val().substring(0,3).toLowerCase() + random
+    suggest3 = $('#adSource').val()[0].toUpperCase() + $('#adMedium').val().substring(0,3).toLowerCase() + random
+  }
+  return [suggest1,suggest2,suggest3]
+}
+
+// Tag Name Suggestions
+function autoSuggestions(){
+  console.log("Invoked");
+  if(!suggestions){
+    suggestions=true;
+    [sug1,sug2,sug3] = getSuggestions();
+    var recom1 = '<button type="text" class="btn btn-warning" value="'+sug1+'" onclick="suggestionClick(1)" style="font-size:20px">'+sug1+'</button><span> </span>';
+    var recom2 = '<button class="btn btn-success" value="'+sug2+'" onclick="suggestionClick(2)" style="font-size:20px">'+sug2+'</button><span> </span>';
+    var recom3 = '<button class="btn btn-info" value="'+sug3+'" onclick="suggestionClick(3)" style="font-size:20px">'+sug3+'</button><span> </span>';
+    $('#suggestTag').append(recom1);
+    $('#suggestTag').append(recom2);
+    $('#suggestTag').append(recom3);
+  }
+
+}
+
+
+function suggestionDuplicate(){
+  var params = {
+    spreadsheetId: spreadSheetID,  // TODO: Update placeholder value.
+    range: 'Sheet1!F:F',
+    majorDimension: "COLUMNS"
+  };
+  var request = gapi.client.sheets.spreadsheets.values.get(params);
+  request.then(function(response) {
+  // Checking for duplicate tags
+    dat = response.result.values[0];
+    temp = new Set(dat)
+    dat.push(tagValue)
+    ref = new Set(dat)
+    globalIndex = temp.size
+    duplicate = (ref.size==temp.size)
+    setTimeout(function(){validateFrom()},300) // TODO: Asynchronous API result time
+  }, function(reason) {
+    console.error('error: ' + reason.result.error.message);
+  });
+
+}
 
 // Tagmanager URL variable
 function gotoTagMgr(){
@@ -186,8 +293,9 @@ function handleClientLoad() {
 function updateSignInStatus(isSignedIn) {
   if (isSignedIn) {
     var stat = $('#signinText');
-    stat.removeClass('btn-info')
-    stat.addClass('btn-success')
+    //stat.removeClass('btn-info')
+    //stat.addClass('btn-success')
+    stat.css("background-color","green")
     stat.attr("onclick","handleSignOutClick()")
     stat.html("Sign Out")
     $('#formSubmitBut').prop('disabled', false)
@@ -195,8 +303,9 @@ function updateSignInStatus(isSignedIn) {
   }
   else{
     var stat = $('#signinText');
-    stat.removeClass('btn-info')
-    stat.addClass('btn-danger')
+    //stat.removeClass('btn-info')
+    //stat.addClass('btn-danger')
+    stat.css("background-color","red")
     stat.attr("onclick","handleSignInClick()")
     stat.html("Sign In")
     $('#formSubmitBut').prop('disabled', true)
@@ -206,8 +315,9 @@ function updateSignInStatus(isSignedIn) {
 function handleSignInClick(event) {
   gapi.auth2.getAuthInstance().signIn();
   var stat = $('#signinText');
-  stat.removeClass('btn-info btn-danger')
-  stat.addClass('btn-success')
+  //stat.removeClass('btn-info btn-danger')
+  //stat.addClass('btn-success')
+  stat.css("background-color","green")
   stat.attr("onclick","handleSignOutClick()")
   stat.html("Sign Out")
   $('#formSubmitBut').prop('disabled', false)

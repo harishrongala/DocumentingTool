@@ -22,14 +22,17 @@
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand"><i class="glyphicon glyphicon-paperclip" style="color: yellow"></i><strong style="color: orange"> CHRONICLE</strong></a>
+    <a class="navbar-brand"><i class="glyphicon glyphicon-paperclip" style="color: yellow"></i><strong style="color: orange; font-size:22px"> CHRONICLE</strong></a>
   </div>
   <div class="collapse navbar-collapse" id="mynavbar">
   <ul class="nav navbar-nav navbar-right">
+    <li><a id="howToUse" onclick="" class="" style="font-weight:bold; font-size:15px; color:white">How to use</a></li>
+    <li><a id="nonByte" onclick="showNonByteModal()" class="" style="font-weight:bold; font-size:15px; color:white">Non Byte</a></li>
+    <li><a id="signinText" onclick="handleSignInClick()" class="" style="font-weight:bold; font-size:15px; color:white">Login Status</a></li>
   </ul>
-  <button id="signinText" onclick="handleSignInClick()" class="btn btn-info navbar-btn pull-right">Login Status</button>
-</div>
+  </div>
 </div>
 </nav>
 <!------------------- Navigation bar ends ------------------------->
@@ -97,6 +100,13 @@
     </div>
     </div>
 
+    <div class="form-group">
+      <center>
+    <div class="input-group" id="suggestTag">
+    </div>
+  </center>
+    </div>
+
 
     <label for="Notes" >Additional Notes </label>
     <div class="form-group">
@@ -106,7 +116,7 @@
     </div>
   </div>
 
-    <button type="submit" class="btn btn-primary" id="formSubmitBut">Submit</button>
+    <button type="submit" class="btn btn-primary" id="formSubmitBut" onclick="submitData()">Submit</button>
   </form>
 
 <!--- Form Ends -------------->
@@ -138,7 +148,8 @@
 
 <div class="modal-footer">
           <div class="row"><textarea class="copyURLArea form-control alert alert-info" rows="1" id="modalURL" ></textarea>
-          <button type="button" class="btn btn-success" onclick="copyURL()"><span class="badge">3</span> Copy URL</button>
+            <button type="button" class="btn btn-primary" onclick="shortenURL()"> Shorten URL</button>
+          <button type="button" class="btn btn-danger" onclick="copyURL()"><span class="badge">3</span> Copy URL</button>
           </div>
       </div>
 </div>
@@ -173,6 +184,49 @@
   </div>
 </div>
 <!--- Data Validation modal and Error message modal ends-->
+
+
+<!-- Non Byte Modal ----------->
+
+<div id="nonByteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3><strong class="modal-title">Other than byteacademy.co</strong></h3>
+      </div>
+
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <label for="link" >Page Link </label>
+          <div class="form-group">
+            <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+            <input type="name" class="form-control" id="nonBytePageLink" name="link" placeholder="Paste the URL to be shared">
+          </div>
+        </div>
+
+
+      <button type="button" class="btn btn-primary pull-right" onclick="bitlyCopy()">Copy URL</button>
+      <button type="button" class="btn btn-primary pull-right" onclick="shortenBitly()" style="margin-right:5px">Shorten URL</button>
+
+        </div>
+        </div>
+
+
+<div class="modal-footer">
+          <div class="row"><textarea class="bitCopyURLArea form-control alert alert-info" rows="1" id="bitURL" style="font-size: 18px; font-weight: bold"></textarea>
+          </div>
+      </div>
+</div>
+    </div>
+  </div>
+
+<!--- Non Byte Modal ends -->
+
 
 
 

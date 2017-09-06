@@ -9,6 +9,7 @@ clientID = config.clientID;
 suggestionDict = {'facebook':'Fb','linkedin':'Ln','Quora':'Qu'};
 duplicate = "";
 globalIndex = 0
+var uniqueRowNum = 0
 shareableLink = ""
 suggestions = false
 sug1 = ""
@@ -96,20 +97,42 @@ function getSuggestions(){
   suggest1 = ""
   suggest2 = ""
   suggest3 = ""
+  rowNum = uniqueRowNum.size;
   var key = $('#adSource').val().toLowerCase();
   if(suggestionDict[key]!=null){
-    suggest1 = suggestionDict[key]
-    suggest2 = suggest1 + $('#adCampaignName').val().substring(0,3).toLowerCase()
-    suggest3 = suggest1 + $('#adMedium').val().substring(0,3).toLowerCase()
+    suggest1 = suggestionDict[key]+rowNum
+    suggest2 = suggestionDict[key] + $('#adCampaignName').val().substring(0,3).toLowerCase()+rowNum
+    suggest3 = suggestionDict[key] + $('#adMedium').val().substring(0,3).toLowerCase()+rowNum
   }
   else{
-    var random = Math.round(Math.random()*100)
-    suggest1 = $('#adSource').val()[0].toUpperCase() + $('#adSource').val()[1] ;
-    suggest2 = $('#adSource').val()[0].toUpperCase() + $('#adCampaignName').val().substring(0,3).toLowerCase() + random
-    suggest3 = $('#adSource').val()[0].toUpperCase() + $('#adMedium').val().substring(0,3).toLowerCase() + random
+    suggest1 = $('#adSource').val()[0].toUpperCase() + $('#adSource').val()[1]+rowNum;
+    suggest2 = $('#adSource').val()[0].toUpperCase() + $('#adCampaignName').val().substring(0,3).toLowerCase() + rowNum
+    suggest3 = $('#adSource').val()[0].toUpperCase() + $('#adMedium').val().substring(0,3).toLowerCase() + rowNum
   }
   return [suggest1,suggest2,suggest3]
 }
+
+
+
+// Get the row number
+function getRowNum(){
+  var params = {
+    spreadsheetId: spreadSheetID,  // TODO: Update placeholder value.
+    range: 'Sheet1!F:F',
+    majorDimension: "COLUMNS"
+  };
+  var request = gapi.client.sheets.spreadsheets.values.get(params);
+  request.then(function(response) {
+  // Checking for duplicate tags
+    uniqueRowNum = new Set(response.result.values[0]);
+    console.log(uniqueRowNum);
+  }, function(reason) {
+      console.error('error: ' + reason.result.error.message);
+    });
+
+}
+
+
 
 // Tag Name Suggestions
 function autoSuggestions(){
@@ -300,6 +323,7 @@ function updateSignInStatus(isSignedIn) {
     stat.html("Sign Out")
     $('#formSubmitBut').prop('disabled', false)
     makeApiCall();
+    getRowNum();
   }
   else{
     var stat = $('#signinText');
@@ -321,6 +345,7 @@ function handleSignInClick(event) {
   stat.attr("onclick","handleSignOutClick()")
   stat.html("Sign Out")
   $('#formSubmitBut').prop('disabled', false)
+  getRowNum();
 }
 
 function handleSignOutClick(event) {

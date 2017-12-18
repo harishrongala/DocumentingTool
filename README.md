@@ -19,4 +19,5 @@ This is a Web application, developed, to enable the marketing team to store, tag
 * x10hosting
 ### Language
 * JavaScript heavy
+* Twitter's BootStrap for styling
 

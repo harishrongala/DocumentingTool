@@ -65,7 +65,7 @@ function addRow(len){
 		alertDeveloper(errorMsg);
 	}
 	else{
-		for(i=0;i<len;i++){
+		for(j=0;j<len;j++){
 			but[i].click();
 		}
 	}

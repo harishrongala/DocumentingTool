@@ -1,28 +1,36 @@
 // Dynamic variables
 
-batchLen = 1
+var batchLen = 1
+// Subtract 1
+var indexStarts = 78
+var tagsArr = ['Fbglo35']
+
+// Source
 Sobj = {
-	'valueArray':['Meetup','Meetup','Meetup','Meetup'],
-	'tagArray':['Me26','Me27','Me28','Me29'],
-	'indexStartsAt': 50
+	'valueArray':['Facebook'],
+	'tagArray':tagsArr,
+	'indexStartsAt': indexStarts
 };
 
+// Medium
 Mobj = {
-	'valueArray':['LearnToCode','LearnToCode','LearnToCode','LearnToCode'],
-	'tagArray':['Me26','Me27','Me28','Me29'],
-	'indexStartsAt': 50
+	'valueArray':['Global Parents'],
+	'tagArray':tagsArr,
+	'indexStartsAt': indexStarts
 };
 
+// Campaign
 Cobj = {
-	'valueArray':['OpenHouse','OpenHouse','OpenHouse','OpenHouse'],
-	'tagArray':['Me26','Me27','Me28','Me29'],
-	'indexStartsAt': 50
+	'valueArray':['Global Parents'],
+	'tagArray':tagsArr,
+	'indexStartsAt': indexStarts
 };
 
+// Objective
 Oobj = {
-	'valueArray':['Traffic','Traffic','Traffic','Traffic'],
-	'tagArray':['Me26','Me27','Me28','Me29'],
-	'indexStartsAt': 50
+	'valueArray':['Conversions'],
+	'tagArray':tagsArr,
+	'indexStartsAt': indexStarts
 };
 
 // Core function definitions

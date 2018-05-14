@@ -1,34 +1,34 @@
 // Dynamic variables
 
-var batchLen = 1
+var batchLen = 4
 // Subtract 1
-var indexStarts = 78
-var tagsArr = ['Fbglo35']
+var indexStarts = 108
+var tagsArr = ['Me41','Me42','Me43','Me44']
 
 // Source
 Sobj = {
-	'valueArray':['Facebook'],
+	'valueArray':['Meetup','Meetup','Meetup','Meetup'],
 	'tagArray':tagsArr,
 	'indexStartsAt': indexStarts
 };
 
 // Medium
 Mobj = {
-	'valueArray':['Global Parents'],
+	'valueArray':['Virtual-Info-Session-04/09', 'Virtual-Info-Session-04/09', 'Virtual-Info-Session-04/09', 'Virtual-Info-Session-04/09'],
 	'tagArray':tagsArr,
 	'indexStartsAt': indexStarts
 };
 
 // Campaign
 Cobj = {
-	'valueArray':['Global Parents'],
+	'valueArray':['Virtual-Info-Session','Virtual-Info-Session','Virtual-Info-Session','Virtual-Info-Session'],
 	'tagArray':tagsArr,
 	'indexStartsAt': indexStarts
 };
 
 // Objective
 Oobj = {
-	'valueArray':['Conversions'],
+	'valueArray':['Traffic','Traffic','Traffic','Traffic'],
 	'tagArray':tagsArr,
 	'indexStartsAt': indexStarts
 };
@@ -44,7 +44,7 @@ x += 'function alertDeveloper(msg){console.log(msg);}';
 
 // Constants
 
-x += 'timeout = 2000;SName = "Lookup Source";MName = "Lookup Medium";CName = "Lookup Campaign";OName = "Lookup Obj";';
+x += 'timeout = 4000;SName = "Lookup Source";MName = "Lookup Medium";CName = "Lookup Campaign";OName = "Lookup Obj";';
 
 // Generic activation script
 
